@@ -1,68 +1,105 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>电商运营数据看板</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>抖音·快手 数据运营看板</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body class="bg-gray-100 text-gray-800 min-h-screen">
 
 <div class="max-w-7xl mx-auto p-4">
-  <div class="flex justify-between items-center mb-6">
-    <h1 class="text-xl font-bold text-blue-600">电商销售运营看板</h1>
-    <div class="space-x-2">
-      <button class="px-3 py-1 bg-blue-500 text-white rounded">导出数据</button>
-      <button class="px-3 py-1 border rounded">刷新</button>
+  <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-3">
+    <h1 class="text-xl font-bold text-blue-600"><i class="fa fa-line-chart mr-2"></i>抖音·快手 数据运营看板</h1>
+    <div class="flex gap-2">
+      <button class="px-3 py-1.5 bg-blue-600 text-white rounded text-sm hover:bg-blue-700 transition">
+        <i class="fa fa-refresh mr-1"></i>刷新数据
+      </button>
+      <button class="px-3 py-1.5 bg-gray-200 rounded text-sm hover:bg-gray-300 transition">
+        <i class="fa fa-download mr-1"></i>导出报表
+      </button>
     </div>
   </div>
 
-  <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-    <div class="bg-white p-4 rounded shadow">
-      <p class="text-sm text-gray-500">总销售额</p>
-      <h2 class="text-2xl font-bold">¥1,258,432</h2>
-      <p class="text-green-500 text-sm">↑12.5% 较上月</p>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+    <div class="bg-white p-5 rounded-lg shadow-sm">
+      <p class="text-sm text-gray-500">总粉丝数</p>
+      <h2 class="text-2xl font-bold mt-1">128.5 万</h2>
+      <p class="text-green-500 text-sm mt-1"><i class="fa fa-arrow-up"></i> 2.3% 日增长</p>
     </div>
-    <div class="bg-white p-4 rounded shadow">
-      <p class="text-sm text-gray-500">订单量</p>
-      <h2 class="text-2xl font-bold">15,872</h2>
-      <p class="text-green-500 text-sm">↑8.3% 较上月</p>
+    <div class="bg-white p-5 rounded-lg shadow-sm">
+      <p class="text-sm text-gray-500">总播放量</p>
+      <h2 class="text-2xl font-bold mt-1">4862.7 万</h2>
+      <p class="text-green-500 text-sm mt-1"><i class="fa fa-arrow-up"></i> 12.8% 周增长</p>
     </div>
-    <div class="bg-white p-4 rounded shadow">
-      <p class="text-sm text-gray-500">客单价</p>
-      <h2 class="text-2xl font-bold">¥79.28</h2>
-      <p class="text-green-500 text-sm">↑3.8% 较上月</p>
+    <div class="bg-white p-5 rounded-lg shadow-sm">
+      <p class="text-sm text-gray-500">总点赞</p>
+      <h2 class="text-2xl font-bold mt-1">218.4 万</h2>
+      <p class="text-green-500 text-sm mt-1"><i class="fa fa-arrow-up"></i> 8.4% 月增长</p>
     </div>
-    <div class="bg-white p-4 rounded shadow">
-      <p class="text-sm text-gray-500">新增用户</p>
-      <h2 class="text-2xl font-bold">3,245</h2>
-      <p class="text-red-500 text-sm">↓2.1% 较上月</p>
+    <div class="bg-white p-5 rounded-lg shadow-sm">
+      <p class="text-sm text-gray-500">带货销售额</p>
+      <h2 class="text-2xl font-bold mt-1">¥128.6 万</h2>
+      <p class="text-green-500 text-sm mt-1"><i class="fa fa-arrow-up"></i> 15.2% 月增长</p>
     </div>
   </div>
 
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-    <div class="bg-white p-4 rounded shadow h-80">
-      <h3 class="mb-3 font-medium">销售趋势</h3>
-      <canvas id="salesChart"></canvas>
+    <div class="bg-white p-5 rounded-lg shadow-sm h-80">
+      <h3 class="font-medium mb-3">近7日播放趋势</h3>
+      <canvas id="playChart"></canvas>
     </div>
-    <div class="bg-white p-4 rounded shadow h-80">
-      <h3 class="mb-3 font-medium">品类销售占比</h3>
-      <canvas id="cateChart"></canvas>
+    <div class="bg-white p-5 rounded-lg shadow-sm h-80">
+      <h3 class="font-medium mb-3">账号数据来源占比</h3>
+      <canvas id="sourceChart"></canvas>
+    </div>
+  </div>
+
+  <div class="bg-white p-5 rounded-lg shadow-sm mb-6">
+    <h3 class="font-medium mb-4">抖音 / 快手 数据对比</h3>
+    <div class="overflow-x-auto">
+      <table class="min-w-full">
+        <thead>
+          <tr class="border-b text-left">
+            <th class="py-2 px-3 text-sm font-medium text-gray-500">平台</th>
+            <th class="py-2 px-3 text-sm font-medium text-gray-500">粉丝</th>
+            <th class="py-2 px-3 text-sm font-medium text-gray-500">播放</th>
+            <th class="py-2 px-3 text-sm font-medium text-gray-500">点赞</th>
+            <th class="py-2 px-3 text-sm font-medium text-gray-500">销售额</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-b">
+            <td class="py-3 px-3">抖音</td>
+            <td class="py-3 px-3">78.2 万</td>
+            <td class="py-3 px-3">3214 万</td>
+            <td class="py-3 px-3">142 万</td>
+            <td class="py-3 px-3">¥86.4 万</td>
+          </tr>
+          <tr>
+            <td class="py-3 px-3">快手</td>
+            <td class="py-3 px-3">50.3 万</td>
+            <td class="py-3 px-3">1648 万</td>
+            <td class="py-3 px-3">76.4 万</td>
+            <td class="py-3 px-3">¥42.2 万</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </div>
 
 <script>
-const salesCtx = document.getElementById('salesChart').getContext('2d');
-new Chart(salesCtx, {
+const playCtx = document.getElementById('playChart').getContext('2d');
+new Chart(playCtx, {
   type: 'line',
   data: {
     labels: ['1日','2日','3日','4日','5日','6日','7日'],
     datasets: [{
-      label: '销售额',
-      data: [42500,38900,41200,39800,44500,52300,56800],
+      label: '播放量',
+      data: [320000, 280000, 350000, 410000, 480000, 520000, 570000],
       borderColor: '#3b82f6',
       backgroundColor: 'rgba(59,130,246,0.1)',
       tension: 0.4,
@@ -72,14 +109,14 @@ new Chart(salesCtx, {
   options: { maintainAspectRatio: false }
 });
 
-const cateCtx = document.getElementById('cateChart').getContext('2d');
-new Chart(cateCtx, {
+const sourceCtx = document.getElementById('sourceChart').getContext('2d');
+new Chart(sourceCtx, {
   type: 'doughnut',
   data: {
-    labels: ['电子产品','服装','家居','美妆','其他'],
+    labels: ['抖音','快手','视频号','其他'],
     datasets: [{
-      data: [48,25,20,15,12],
-      backgroundColor: ['#3b82f6','#10b981','#f59e0b','#ef4444','#64748b']
+      data: [65,25,8,2],
+      backgroundColor: ['#3b82f6','#10b981','#f59e0b','#64768b']
     }]
   },
   options: { maintainAspectRatio: false }
